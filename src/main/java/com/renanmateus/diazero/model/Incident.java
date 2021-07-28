@@ -36,5 +36,10 @@ public class Incident {
 	@Column(nullable = true)
 	private LocalDateTime closedAt;
 	
+	public Incident(String name, String description) {
+		this.name = name;
+		this.description = description;
+		
+	}
 
 }
