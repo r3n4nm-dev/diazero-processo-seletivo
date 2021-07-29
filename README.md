@@ -9,7 +9,7 @@
 - H2 1.4.199 (desenvolvimento)  
 - MySQL Community Server 8.0.23 (produção)  
 
-### Considerações:  
+### Considerações  
 - API desenvolvida com Ecossistema Spring (Spring Secutiry, Spring DATA JPA, Spring WEB);
 - Testes unitários na camada de serviço foram implementados;  
 - 2 usuários em mémoria foram criados:
@@ -20,17 +20,29 @@
 | admin  | admin  | admin  |
 |  user | user  | user  |
 
+### Configuração Base de dados  
+ Para o desenvolvimento o banco escolhido foi o H2.  
+ Edite o arquivo application.properties para modificar as configurações do seu banco.  
+ #### application.properties
+``` 
+spring.datasource.url=jdbc:h2:mem:diazerodb  
+spring.datasource.username=sa  
+spring.datasource.password=  
+spring.h2.console.enabled=true  
+spring.h2.console.path=/h2-console  
+```
+ 
 
-
-### Regras de negócio:
+### Regras de negócio
  - A resposta para as requições são diferentes dependendo do tipo de Role do usuário.
 	Informações mais técnicas como os paramêtros: createdAt, updatedAt e closedAt, apenas são informados ao admin;
  - Foi criado um novo paramêtro para informar aos usuários o estado atual do incident, o status;
  - Um incident já fechado (status: closed) não pode ser atualizadado e nem fechado novamente;
  - Apenas o admin pode deletar um incident.
   
-### Utilizando os recursos:  
-  
+### Utilizando os recursos  
+As requisições devem ser encaminhadas a localhost:8080.
+
 | Info  | Method  | URI  | Content-Type |
 |---|---|---|---|
 | Listando incidents  | GET | /incidents  |   |
