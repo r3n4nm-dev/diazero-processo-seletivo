@@ -1,0 +1,23 @@
+version: '3'
+services:
+    mysql-server:
+        container_name: diazerodb
+        image: mysql:5.7
+        environment:
+            - MYSQL_ROOT_PASSWORD=renan
+            - MYSQL_DATABASE=diazerodb
+        ports:
+            - "3306:3306"
+        networks:
+            - diazero-network
+
+    diazero-api:
+        container_name: diazero-api
+        build: .
+        ports:
+            - "8080:8080"
+        networks:
+            - diazero-network
+networks:
+    diazero-network:
+        driver: bridge
