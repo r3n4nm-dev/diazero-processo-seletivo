@@ -1,5 +1,6 @@
 package com.renanmateus.diazero.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +30,25 @@ public class IncidentController {
 
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping
-	public IncidentResponseDTO save(@RequestBody @Valid IncidentRequestDTO incidentRequestDTO) {
+	public IncidentResponseDTO save(@RequestBody @Valid IncidentRequestDTO incidentRequestDTO,
+			HttpServletRequest request) {
+		if (request.isUserInRole("ROLE_ADMIN")) {
+			Incident incident = this.incidentService.save(incidentRequestDTO.transformToIncident());
+			return new IncidentResponseDTO().transformDTOAdminRole(incident);
+		}
 		Incident incident = this.incidentService.save(incidentRequestDTO.transformToIncident());
 		return new IncidentResponseDTO().transformDTOUserRole(incident);
 	}
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping
-	public Page<IncidentResponseDTO> findAll(Pageable pageable) {
+	public Page<IncidentResponseDTO> findAll(Pageable pageable, HttpServletRequest request) {
 		Page<Incident> incidents = this.incidentService.findAll(pageable);
+		if (request.isUserInRole("ROLE_ADMIN")) {
+			Page<IncidentResponseDTO> indicentsResponseDTO = incidents
+					.map(incident -> new IncidentResponseDTO().transformDTOAdminRole(incident));
+			return indicentsResponseDTO;
+		}
 		Page<IncidentResponseDTO> indicentsResponseDTO = incidents
 				.map(incident -> new IncidentResponseDTO().transformDTOUserRole(incident));
 		return indicentsResponseDTO;
@@ -45,22 +56,32 @@ public class IncidentController {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping("/{incidentId}")
-	public IncidentResponseDTO findById(@PathVariable Long incidentId) {
+	public IncidentResponseDTO findById(@PathVariable Long incidentId, HttpServletRequest request) {
 		Incident incident = this.incidentService.findById(incidentId);
+		if (request.isUserInRole("ROLE_ADMIN")) {
+			return new IncidentResponseDTO().transformDTOAdminRole(incident);
+		}
 		return new IncidentResponseDTO().transformDTOUserRole(incident);
 	}
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping("/update/{incidentId}")
-	public IncidentResponseDTO updateById(@PathVariable Long incidentId, @RequestBody @Valid IncidentRequestDTO incidentRequestDTO) {
+	public IncidentResponseDTO updateById(@PathVariable Long incidentId,
+			@RequestBody @Valid IncidentRequestDTO incidentRequestDTO, HttpServletRequest request) {
 		Incident incident = this.incidentService.updateById(incidentId, incidentRequestDTO.transformToIncident());
+		if (request.isUserInRole("ROLE_ADMIN")) {
+			return new IncidentResponseDTO().transformDTOAdminRole(incident);
+		}
 		return new IncidentResponseDTO().transformDTOUserRole(incident);
 	}
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping("/close/{incidentId}")
-	public IncidentResponseDTO closeById(@PathVariable Long incidentId) {
+	public IncidentResponseDTO closeById(@PathVariable Long incidentId, HttpServletRequest request) {
 		Incident incident = this.incidentService.closeById(incidentId);
+		if (request.isUserInRole("ROLE_ADMIN")) {
+			return new IncidentResponseDTO().transformDTOAdminRole(incident);
+		}
 		return new IncidentResponseDTO().transformDTOUserRole(incident);
 	}
 
