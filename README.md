@@ -10,7 +10,7 @@
 - MySQL Community Server 8.0.23 (produção)  
 
 ### Considerações:  
-- API desenvolvida com Ecosistemas Spring (Spring Secutiry, Spring DATA JPA, Spring WEB);
+- API desenvolvida com Ecossistema Spring (Spring Secutiry, Spring DATA JPA, Spring WEB);
 - Testes unitários na camada de serviço foram implementados;  
 - 2 usuários em mémoria foram criados:
 
