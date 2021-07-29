@@ -44,7 +44,8 @@ public class IncidentServiceImpl implements IncidentService {
 			LocalDateTime alredyClosed = this.incidentRepository.findById(id).get().getClosedAt();
 			if (alredyClosed == null) {
 				Incident savedIncident = copyProperties(id, incident);
-				savedIncident.setCreatedAt(newIncident.get().getCreatedAt());
+			//Incident savedIncident = new Incident();	
+			savedIncident.setCreatedAt(newIncident.get().getCreatedAt());
 				savedIncident.setUpdatedAt(LocalDateTime.now());
 				savedIncident.setStatus("updated");
 				return this.incidentRepository.save(savedIncident);
