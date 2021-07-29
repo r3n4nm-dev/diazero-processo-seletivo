@@ -1,5 +1,7 @@
 package com.renanmateus.diazero.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +29,7 @@ public class IncidentController {
 
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping
-	public IncidentResponseDTO save(@RequestBody IncidentRequestDTO incidentRequestDTO) {
+	public IncidentResponseDTO save(@RequestBody @Valid IncidentRequestDTO incidentRequestDTO) {
 		Incident incident = this.incidentService.save(incidentRequestDTO.transformToIncident());
 		return new IncidentResponseDTO().transformDTOUserRole(incident);
 	}
@@ -50,7 +52,7 @@ public class IncidentController {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping("/update/{incidentId}")
-	public IncidentResponseDTO updateById(@PathVariable Long incidentId, @RequestBody IncidentRequestDTO incidentRequestDTO) {
+	public IncidentResponseDTO updateById(@PathVariable Long incidentId, @RequestBody @Valid IncidentRequestDTO incidentRequestDTO) {
 		Incident incident = this.incidentService.updateById(incidentId, incidentRequestDTO.transformToIncident());
 		return new IncidentResponseDTO().transformDTOUserRole(incident);
 	}

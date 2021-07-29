@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) // ignore all null fields
 @Data
-
+@AllArgsConstructor
 @NoArgsConstructor
 
 public class Error {
@@ -20,6 +20,7 @@ public class Error {
 	private String message;
 	private Integer status;
 	private LocalDateTime timestamp;
+	private List<Field> fields;
 
 	public Error(String message, Integer status, LocalDateTime timestamp) {
 		this.message = message;
