@@ -1,6 +1,6 @@
 # diazero-processo-seletivo
 ## Diazero processo seletivo desenvolvedor Java
-
+###### A imagem do container deste projeto pode ser encontrada em **[Docker hub](https://hub.docker.com/repository/docker/r3n4nm/diazero-processo-seletivo-image)**
 
 ### Projeto desenvolvido utilzando:  
 - Java 11  
